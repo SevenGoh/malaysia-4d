@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/fetch?force=true",
+      "schedule": "*/10 11 * * 0,3,6"
+    }
+  ]
+}
