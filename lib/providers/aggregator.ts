@@ -40,12 +40,14 @@ type AggregatorResponse = {
   M4D?: AggregatorPrizeBlock;
   DMC4D?: AggregatorPrizeBlock;
   TT?: AggregatorPrizeBlock;
+  GD?: AggregatorPrizeBlock;
 };
 
 const OPERATOR_KEY: Record<OperatorId, keyof AggregatorResponse> = {
   magnum: "M4D",
   damacai: "DMC4D",
   toto: "TT",
+  granddragon: "GD",
 };
 
 function clean(value?: string): string {
@@ -148,7 +150,12 @@ export async function fetchAllFromAggregator(): Promise<DrawResult[]> {
   const data = await getAggregatorData();
   const results: DrawResult[] = [];
 
-  for (const operator of ["magnum", "damacai", "toto"] as OperatorId[]) {
+  for (const operator of [
+    "magnum",
+    "damacai",
+    "toto",
+    "granddragon",
+  ] as OperatorId[]) {
     const key = OPERATOR_KEY[operator];
     const block = data[key];
     if (!block) continue;

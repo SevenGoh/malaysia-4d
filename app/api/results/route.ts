@@ -5,7 +5,12 @@ import type { DrawResult, OperatorId } from "@/lib/providers/types";
 
 export const dynamic = "force-dynamic";
 
-const VALID_OPERATORS = new Set<OperatorId>(["magnum", "damacai", "toto"]);
+const VALID_OPERATORS = new Set<OperatorId>([
+  "magnum",
+  "damacai",
+  "toto",
+  "granddragon",
+]);
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;

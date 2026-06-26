@@ -47,3 +47,13 @@ next-env.d.ts
 /public/workbox-*.js
 /public/sw.js.map
 /public/workbox-*.js.map
+
+# android
+/android/.gradle/
+/android/.idea/
+/android/local.properties
+/android/keystore.properties
+/android/release.keystore
+/android/**/*.keystore
+/android/app/build/
+/android/build/

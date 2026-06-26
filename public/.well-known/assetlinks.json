@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sevengoh.malaysia4d",
+      "sha256_cert_fingerprints": [
+        "B2:5C:90:87:D4:8A:E6:5F:33:24:A7:8C:AA:CB:B8:9A:41:03:46:D0:A4:EF:8D:4A:F0:33:4E:60:F3:7D:06:EF"
+      ]
+    }
+  }
+]

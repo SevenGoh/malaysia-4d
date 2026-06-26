@@ -7,7 +7,7 @@ export default function HomePage() {
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-white">Malaysia 4D</h1>
         <p className="mt-1 text-sm text-zinc-400">
-          Magnum · Da Ma Cai · Sports Toto
+          万能 · 大马彩 · 多多 · 金龙
         </p>
       </header>
 

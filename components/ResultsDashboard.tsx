@@ -1,13 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DatePicker } from "./DatePicker";
+import { AdBanner } from "./AdBanner";
+import { MyNumbersPanel } from "./MyNumbersPanel";
 import { OperatorTabs } from "./OperatorTabs";
 import { ResultCard } from "./ResultCard";
-import { getTodayIso, isDrawDay, parseIsoDate } from "@/lib/dates";
-import type { DrawResult, OperatorId } from "@/lib/providers/types";
-
-const OPERATOR_ORDER: OperatorId[] = ["magnum", "damacai", "toto"];
+import { getTodayIso, shouldPollToday } from "@/lib/dates";
+import { matchMyNumbers, type MyNumberEntry } from "@/lib/my-numbers";
+import { OPERATOR_ORDER, type DrawResult, type OperatorId } from "@/lib/providers/types";
 
 export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
   const [date, setDate] = useState(initialDate ?? getTodayIso());
@@ -16,6 +17,11 @@ export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [myNumbers, setMyNumbers] = useState<MyNumberEntry[]>([]);
+
+  const handleMyNumbersChange = useCallback((entries: MyNumberEntry[]) => {
+    setMyNumbers(entries);
+  }, []);
 
   const loadResults = useCallback(
     async (opts?: { refresh?: boolean }) => {
@@ -56,10 +62,7 @@ export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
   }, [loadResults]);
 
   useEffect(() => {
-    const isToday = date === getTodayIso();
-    const shouldPoll = isToday && isDrawDay(parseIsoDate(date));
-
-    if (!shouldPoll) return;
+    if (!shouldPollToday(date)) return;
 
     const interval = setInterval(() => {
       loadResults({ refresh: true });
@@ -73,8 +76,20 @@ export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
       ? results
       : results.filter((r) => r.operator === operator);
 
+  const totalHits = useMemo(() => {
+    return visible.reduce((sum, result) => sum + matchMyNumbers(myNumbers, result).length, 0);
+  }, [visible, myNumbers]);
+
   return (
     <div className="space-y-4">
+      <MyNumbersPanel onChange={handleMyNumbersChange} />
+
+      {totalHits > 0 && (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+          本期共中 <span className="font-semibold text-white">{totalHits}</span> 个奖项
+        </div>
+      )}
+
       <DatePicker date={date} onChange={setDate} />
 
       <div className="flex items-center justify-between gap-3">
@@ -88,6 +103,8 @@ export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
           {refreshing ? "…" : "Refresh"}
         </button>
       </div>
+
+      <AdBanner slot="content" />
 
       {loading && (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 text-center text-zinc-400">
@@ -103,8 +120,8 @@ export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
 
       {!loading && !error && visible.length === 0 && (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 text-center text-zinc-400">
-          No results for this date. Draws run Wed, Sat & Sun — try another date or
-          tap Refresh.
+          No results for this date. Big 3: Wed/Sat/Sun + special Tuesdays; GD
+          draws daily — try another date or tap Refresh.
         </div>
       )}
 
@@ -114,6 +131,7 @@ export function ResultsDashboard({ initialDate }: { initialDate?: string }) {
             key={`${result.operator}-${result.drawDate}`}
             result={result}
             selectedDate={date}
+            hits={matchMyNumbers(myNumbers, result)}
           />
         ))}
       </div>

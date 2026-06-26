@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
   if (!force && (!isDrawDay(myt) || !isDrawNightMyt(now))) {
     return NextResponse.json({
       skipped: true,
-      reason: "Outside draw-night window (Wed/Sat/Sun 7:05–7:35 PM MYT)",
+      reason: "Outside draw-night window (Wed/Sat/Sun & special Tue 7:05–7:35 PM MYT)",
     });
   }
 

@@ -1,6 +1,12 @@
 "use client";
 
-import { formatDisplayDate, shiftIsoDate } from "@/lib/dates";
+import {
+  formatDisplayDate,
+  isDrawDay,
+  isSpecialDrawDate,
+  parseIsoDate,
+  shiftIsoDate,
+} from "@/lib/dates";
 
 type DatePickerProps = {
   date: string;
@@ -8,6 +14,11 @@ type DatePickerProps = {
 };
 
 export function DatePicker({ date, onChange }: DatePickerProps) {
+  const parsed = parseIsoDate(date);
+  const special = isSpecialDrawDate(date);
+  const bigThreeDraw = isDrawDay(parsed);
+  const gdDaily = true;
+
   return (
     <div className="sticky top-0 z-10 -mx-4 border-b border-zinc-800 bg-zinc-950/90 px-4 py-3 backdrop-blur">
       <div className="flex items-center justify-between gap-3">
@@ -22,6 +33,19 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
 
         <div className="flex flex-1 flex-col items-center gap-1">
           <p className="text-sm font-medium text-white">{formatDisplayDate(date)}</p>
+          {special && (
+            <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-medium text-amber-300">
+              特别开彩 Special Draw
+            </span>
+          )}
+          <p className="text-[10px] text-zinc-500">
+            {[
+              bigThreeDraw ? "M4D·DMC·ST" : null,
+              gdDaily ? "GD 每日" : null,
+            ]
+              .filter(Boolean)
+              .join(" · ") || "无开彩日"}
+          </p>
           <input
             type="date"
             value={date}

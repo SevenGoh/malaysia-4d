@@ -1,7 +1,6 @@
 "use client";
 
-import type { OperatorId } from "@/lib/providers/types";
-import { OPERATORS } from "@/lib/providers/types";
+import { OPERATORS, OPERATOR_ORDER, type OperatorId } from "@/lib/providers/types";
 
 type OperatorTabsProps = {
   selected: OperatorId | "all";
@@ -10,9 +9,10 @@ type OperatorTabsProps = {
 
 const TABS: Array<{ id: OperatorId | "all"; label: string }> = [
   { id: "all", label: "All" },
-  { id: "magnum", label: OPERATORS.magnum.shortName },
-  { id: "damacai", label: OPERATORS.damacai.shortName },
-  { id: "toto", label: OPERATORS.toto.shortName },
+  ...OPERATOR_ORDER.map((id) => ({
+    id,
+    label: OPERATORS[id].tabAbbr,
+  })),
 ];
 
 export function OperatorTabs({ selected, onChange }: OperatorTabsProps) {
@@ -28,6 +28,11 @@ export function OperatorTabs({ selected, onChange }: OperatorTabsProps) {
               ? "bg-white text-zinc-900"
               : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
           }`}
+          title={
+            tab.id === "all"
+              ? "All operators"
+              : `${OPERATORS[tab.id].name} · ${OPERATORS[tab.id].nameZh}`
+          }
         >
           {tab.label}
         </button>

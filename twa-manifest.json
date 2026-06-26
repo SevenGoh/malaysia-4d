@@ -1,0 +1,40 @@
+{
+  "packageId": "com.sevengoh.malaysia4d",
+  "host": "malaysia-4d.vercel.app",
+  "name": "Malaysia 4D Results",
+  "launcherName": "MY 4D",
+  "display": "standalone",
+  "themeColor": "#09090B",
+  "themeColorDark": "#09090B",
+  "navigationColor": "#09090B",
+  "navigationColorDark": "#09090B",
+  "navigationDividerColor": "#09090B",
+  "navigationDividerColorDark": "#09090B",
+  "backgroundColor": "#09090B",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://malaysia-4d.vercel.app/icon-512.png",
+  "maskableIconUrl": "https://malaysia-4d.vercel.app/icon-512.png",
+  "monochromeIconUrl": "https://malaysia-4d.vercel.app/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "release.keystore",
+    "alias": "malaysia4d"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://malaysia-4d.vercel.app/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 21,
+  "orientation": "portrait-primary",
+  "fullScopeUrl": "https://malaysia-4d.vercel.app/"
+}
