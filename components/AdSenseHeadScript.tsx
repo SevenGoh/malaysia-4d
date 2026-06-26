@@ -1,18 +1,17 @@
-"use client";
-
-import Script from "next/script";
 import { ADSENSE_CLIENT_ID, isAdsEnabled } from "@/lib/ads";
 
-export function AdSenseScript() {
-  if (!isAdsEnabled()) return null;
+/**
+ * Raw AdSense snippet in initial HTML for Google site verification crawlers.
+ */
+export function AdSenseHeadScript() {
+  if (!isAdsEnabled() || !ADSENSE_CLIENT_ID) return null;
 
   return (
-    <Script
-      id="adsense-loader"
+    <script
       async
       src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
       crossOrigin="anonymous"
-      strategy="afterInteractive"
+      suppressHydrationWarning
     />
   );
 }
